@@ -1,0 +1,29 @@
+extra credit part in checkpoint 2
+
+Description:
+
+System calls pass as parameters pointers in user memory, there will be vulnerability since the user can read and write from invalid memory
+We design a mechanism to prevent the user from visiting the invalid memory
+
+Two memory validation function in memory.c
+int memory_validate_vptr_len(const void *vp, size_t len, uint8_t rwxug_flags)
+int memory_validate_vstr(const char *vs, uint8_t ug_flags)
+The memory validate api use in syscall.c
+using api memory_validate_vstr in msgout, devopen, fsopen
+using api memory_validate_cptr_len in sysread syswrite syscall_handler
+
+Change: we design the failure output and corresponding behavior when the user try to do malicious thing
+instead of msgout, other function will immediately return and return corresponding failure signal
+for msgout, instead of print the user string it will print msgout refuse the request
+
+Exact step to see the functionality
+1. switch to branch cp2
+2. cd src/kern
+3. bash test_vm.sh
+
+expected behavior
+
+for illegal read and write, the corresponding fault should be trigger
+for writing to kernel page, the page fault should be trigger
+for msgout, instead of print thread said, it should print sysmsgout refuse the request
+

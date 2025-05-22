@@ -1,0 +1,17 @@
+Regrade Request
+
+
+CP1
+
+rubric item:
+-  3. Filesystem(kfs.c/.h) (25pts)
+- 3.1. Student demonstrates use of fs_write to overwrite the contents of files: We uploaded the test case relevant to this functionality so that . To run the test case, go to cp1 branch and run test_fs.sh in kern. Then, open a new terminal to open the console. After "CMD> " has come out in the new console, type "t_write". The expected output should be in kernel console: 
+"""
+Content before write:WritemeWritemeWritem
+fs_write succeeded
+Content after write:I see you temeWritem
+"""
+
+   - 3.2. main shell works as expected. We fixed the kfs.c/.h code in cp1. To run the shell:
+
+in kern, type "cd ../user", then "make", then "cd ../util", then "make", then "./mkfs ../kern/kfs.raw ../user/bin/trek ../user/bin/rogue ../user/bin/zork ../user/bin/hello". After that, go back to kernel folder and run "make run-shell" to run the games in the console. After "CMD> " has come out, type "trek" or the other files. The output should be that the games can be run.

@@ -1,0 +1,150 @@
+Group Name: Cooked Engine
+Group Members: Licheng Xu, Chongying Yue, Libin Wang
+
+Project Name: gmzOS 
+
+*** Mp3 Checkpoint1 ***
+
+** Virtio Part **
+
++-------------------------------------------------------------------------------------------------------------------+
+i. BugID: 1
+
+ii. Description: 
+sometime read and write function will perform wrongly
+the output is not complete and consistence
+
+iii. Associated Files:
+vioblk.c
+
+iv. Solution:
+add the out of range check for the device
+if the request is out of range, then set to the end of device
++-------------------------------------------------------------------------------------------------------------------+
+
++-------------------------------------------------------------------------------------------------------------------+
+i. BugID: 2
+
+ii. Description:
+After attach the device, the device cannot correctly open
+
+iii. Associated Files:
+vioblk.c
+
+iv. Solution:
+the descriptor table set wrongly, after ask the Ta and look through the document
+find a conbination of parameter that works
++-------------------------------------------------------------------------------------------------------------------+
+
+
+** Filesystem part **
+
++-------------------------------------------------------------------------------------------------------------------+
+i. BugID: 3
+
+ii. Description: kmalloc function causes compilation warnings due to its implicit declaration. This leads to potential misbehavior in memory allocation, affecting read and write operations, resulting in inconsistent outputs.
+
+iii. Associated Files: kfs.c
+
+iv. Solution: Include the correct header file (heap.h) where kmalloc is declared or replace kmalloc with malloc and manage memory using standard allocation functions.
++-------------------------------------------------------------------------------------------------------------------+
+
+** Elfload part **
+
++-------------------------------------------------------------------------------------------------------------------+
+i. BugID: 4
+
+ii. Description: 
+During writing unit-tests for elf_load function, I found the thread didn't execute after calling
+thread_spawn function. Using gdb, the program will turn out 'Load access fault at ...'
+
+iii. Associated Files: thread.c, main_tests.c
+
+iv. Solution: 
+Add thread_init() function at the beginning of the test function. 
+However, the thread_init() function in the main_shell.c was written as "thrmgr_init()". I guess it is a typo.
+
++-------------------------------------------------------------------------------------------------------------------+
+
+
+
+*** Mp3 Checkpoint2 ***
+
+** Virtual Memory Part **
+
++-------------------------------------------------------------------------------------------------------------------+
+i. BugID: 1
+
+ii. Description:
+During the Makefile, we found that the memory_page_fault_handler function is kept being called. And it turned out that
+"No free page available".
+
+iii. Associated Files: memory.c, elf.c
+
+iv. Solution:
+The problem is because that we didn't set the page to be "valid". So the program continues calling the fault handler;
+In elf_load function, when calling the memory_set_page_flags function, the flags to be set should include "V" bit;
+Also, in memory_set_page_flags function, the function also should set "V" bit;
+
++-------------------------------------------------------------------------------------------------------------------+
+
+
+** Process Part **
++-------------------------------------------------------------------------------------------------------------------+
+i. BugID: 2
+
+ii. Description:
+In the process_exit() function, when I closed the I/O interfaces associated with the process, I found it will cause
+"Instruction page fault"; 
+
+iii. Associated Files: process.c
+
+iv. Solution:
+Change the range of the for loop from [0, PROCESS_IOMAX] to [0, PROCESS_IOMAX);
+
++-------------------------------------------------------------------------------------------------------------------+
+
+** Syscall Part **
++-------------------------------------------------------------------------------------------------------------------+
+i. BugID: 3
+
+ii. Description:
+in the syscall function, the switch condition previously set to a[TFR_A7], 
+but it should be the offset from A0 to A7, so it should be 7
+
+iii. Associated Files: syscall.c
+
+iv. Solution:
+change TFR_A7 to 7 which is the offset for a0 to a7
+
++-------------------------------------------------------------------------------------------------------------------+
+
+*** Mp3 Checkpoint3 ***
++-------------------------------------------------------------------------------------------------------------------+
+i. BugID: 1
+
+ii. Description:
+in the syscall.c, in order to go in the program, we increment the sepc, 
+but it also increase in the excp.c which cause program crash
+
+iii. Associated Files: syscall.c excp.c
+
+iv. Solution:
+delete the increment in one part
+
++-------------------------------------------------------------------------------------------------------------------+
+
++-------------------------------------------------------------------------------------------------------------------+
+i. BugID: 2
+
+ii. Description:
+the failure return value is wrong in syscall.c and for fsopen and devopen,
+it will open twice, which will cause failure
+
+iii. Associated Files: syscall.c
+
+iv. Solution:
+change some part of return value invalid fd to invalid
+and change the open logic for fd > 0
+
++-------------------------------------------------------------------------------------------------------------------+

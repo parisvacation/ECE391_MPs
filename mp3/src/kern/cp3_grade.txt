@@ -1,0 +1,19 @@
+I. User program for testing reference count: src/user/test_refcnt.c
+                                        The program in src/user/bin will be named as "test_refcnt";
+                                        It will be copied to the program as src/user/bin/runme;
+                                        The name in kfs.raw will be "runme".
+How to run the test program: in the src/kern directory, run "bash test_refcnt.sh"
+The ideal result will be thread:0 tries to close the file --> not call io->ops->close();
+                         thread:1 writes and reads, then close the file --> call io->ops->close() this time;
+
+
+II. User program for testing lock: src/user/init_lock_test.c
+                                        The program in src/user/bin will be named as "init_lock_test";
+                                        It will be copied to the program as src/user/bin/runme;
+                                        The name in kfs.raw will be "runme".
+How to the the test program: in the src/kern directory, run "bash test_lock.sh"
+The ideal result will be thread:0 will write three lines, and waits for thread 1;
+                         thread:1 will write three lines, and exit;  ## Note: the thread:1 will run first
+                         thread:0 will then read the lines just be written, and exit;
+
+p.s For testing the first four programs, you can change the name in line 5 of src/kern/test_fork.sh (the one before /user/bin/runme);

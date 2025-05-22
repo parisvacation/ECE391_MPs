@@ -1,0 +1,47 @@
+Testing reading. If you see me you're good
+
+Word meaning is complex
+For each word, we'd like to learn
+
+information about its basic sense (e.g. "bird", "apple")
+distinctions between similar words (e.g. "apples" vs. "orange")
+grammatical properties (e.g. noun vs. verb, singular vs. plural)
+connotations (e.g. complimentary or pejorative, fancy vs. common word)
+Many meanings can be expressed by a word that's more fancy or more plain. E.g. bellicose (fancy) and warlike (plain) mean the same thing. Words can also describe the same property in more or less complimentary terms, e.g. plump (nice) vs. fat (not nice). This leads to jokes about "irregular conjugations" such as
+
+I'm confident
+You're assertive
+She's aggressive
+Contrast
+A more subtle problem with these logic-style representations of meaning is that people are are sensitive to the overall structure of the vocabulary. Although some words are seen as synonyms, it's more common that distinct words are seen as having distinct senses, even when the speaker cannot explain what is different about their meaning.
+
+The "Principle of Contrast" states that differences in form imply differences in meaning. (Eve Clark 1987, though idea goes back earlier). For example, kids will say things like "that's not an animal, that's a dog." Adults have a better model that words can refer to more or less general categories of objects, but still make mistakes like "that's not a real number, it's an integer." Apparent synonyms seem to inspire a search for some small difference in meaning. For example, how is "graveyard" different from "cemetery"? Perhaps cemeteries are prettier, or not adjacent to a church, or fancier, or ...
+
+People can also be convinced that two meanings are distinct because an expert says they are, even when they cannot explain how they differ (an observation originally due to the philosopher Hilary Putnam). For example, pewter (used to make food dishes) and nickel silver (used to make keys for instruments) are similar looking dull silver-colored metals used as replacements for silver. The difference in name tells people that they must be different. But most people would have to trust an expert because they can't tell them apart. Even fewer could tell you that they are alloys with these compositions:
+
+nickel silver: 60% copper, 20% nickel and 20% zinc
+pewter: 91% tin, 7.5% antimony, and 1.5% copper
+
+Context-based representations
+A different approach to representing word meanings, which has recently been working better in practice is to observe how people use each word.
+
+"You shall know a word by the company it keeps" (J. R. Firth, 1957)
+People have a lot of information to work with, e.g. what's going on when the word was said, how other people react to it, even actual explanations from other people. Most computer algorithms only get to see running text. So we approximate this idea by observing which words occur in the same textual context. That is words that occur together often share elements of meaning.
+
+hour test, syllabus, assignment, lecture
+milk, flour, spoon, oven, cook
+We can also figure out an unfamiliar word from examples in context:
+
+Authentic biltong is flavored with coriander.
+John took biltong on his hike.
+Antelope biltong is better than ostrich biltong .
+The first context suggests that biltong is food. The second context suggests that it isn't perishable. The third suggests it involves meat.
+
+This would probably be enough information for you to use the word biltong in a sentence, as if you completely understood what it meant. For some tasks, that might be enough. However, you might want to know a bit more detail before deciding whether to eat some. We've all heard stories of travellers who ordered some mystery dish off a foreign language menu and it turned out to be something they hated. An important unsolved problem is hold to "ground" meanings in the real world, i.e. relate the meaning of a world to observable properties such as appearance and taste.
+
+
+Word Embeddings (vector semantics)
+Idea: let's represent each word as a vector of numerical feature values.
+
+These feature vectors are called word embeddings. In an ideal world, the embeddings might look like this embedding of words into 2D, except that the space has a lot more dimensions. (In practice, a lot of massaging would be required to get a picture this clean.) Our measures of similarity will be based on what words occur near one another in a text data corpus, because that's the type of data that's available in quantity.
+
